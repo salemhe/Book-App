@@ -24,7 +24,8 @@ const Shop = () => {
               </p>
             </h5>
             <p className="font-normal text-gray-700 dark:text-gray-400">
-               Here are the biggest enterprise technology acquisitions of 2021 so far, in reverse chronological order.
+              Here are the biggest enterprise technology acquisitions of 2021 so far, in reverse chronological order.
+              {/* {book.bookDescription} */}
             </p>
 
             <button className='bg-blue-700 font-semibold text-white py-2 rounded'>Buy Now</button>
