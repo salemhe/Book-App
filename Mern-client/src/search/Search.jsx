@@ -29,7 +29,7 @@ function SearchResults() {
     try {
       const response = await fetch('https://www.googleapis.com/books/v1/volumes?q=random');
       const data = await response.json();
-      setRecommendations(data.items.slice(0, 5));
+      setRecommendations(data.items.slice(0, 8));
     } catch (error) {
       console.error('Error fetching recommendations:', error);
     }
