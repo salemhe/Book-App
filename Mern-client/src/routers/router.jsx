@@ -17,6 +17,8 @@ import SignUp from "../components/SignUp";
 import Login from "../components/Login";
 import PrivateRoute from "../PrivateRoute/PrivateRoute";
 import Logout from "../components/Logout";
+import SearchResults from "../search/search";
+import BookDetails from "../../../bookDetails/BookDetails";
 
 
   const router = createBrowserRouter([
@@ -43,9 +45,19 @@ import Logout from "../components/Logout";
             path: "/book/:id",
             element: <SingleBook/>,
             loader: ({ params }) => fetch(`http://localhost:5000/book/${params.id}`)
-        }
+        },
+        {
+          path: '/search-results',
+          element: <SearchResults />
+        },
+        {
+          path: '/book-details/:bookId',
+          element: <BookDetails/>
+        },
+        
       ]
     },
+    
     {
       path: "/admin/dashboard",
       element: <DashboardLayout/>,

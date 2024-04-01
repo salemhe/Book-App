@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 
 import { Card } from 'flowbite-react';
 
@@ -16,6 +16,7 @@ const Shop = () => {
         {
           books.map(book => <Card
             // className="max-w-sm"
+            key={book._id}
           >
             <img src={book.imageUrl} alt="" className='h-96'/>
             <h5 className="text-2xl font-bold tracking-tight text-gray-900 dark:text-white">

@@ -42,10 +42,10 @@ function BookDetails() {
 
   return (
     <div >
-      <div className="p-8  mt-16">
+      <div className="p-8 mt-16">
          {/* <h1 className="text-xl font-bold mb-4">Book Title: <span className='font-semibold text-lg'>{bookDetails.title}</span></h1> */}
          <div className="block sm:flex border bg-gray-100 rounded-md overflow-hidden shadow-md">
-            <div className="w-1/2">
+            <div className=" w-1/2">
                {/* <div className='w-full borde h-full  relativ'>
                   <img
                      src={bookDetails.imageLinks?.thumbnail}
@@ -53,11 +53,11 @@ function BookDetails() {
                      className="absolut inset-0   h-full object-cover"
                   />
                </div> */}
-               <div className=' h-full items-center w-full pl-8 sm:pr-0 flex justify-center '>
+               <div className=' h-full items-center w-full pl-8 sm:pl-0 flex justify-center '>
                   <img src={bookDetails.imageLinks?.thumbnail} alt={bookDetails.title} className="w-56 mt-6 h-72 object-cover" />
                 </div>
             </div>
-            <div className="p-6 sm:pr-16 sm:py-6 w-full sm:w-[1/2]">
+            <div className="p-6 sm:pr-36 sm:py-6 w-full sm:w-[1/2]">
                <h2 className="text-xl sm:text-2xl font-semibold mb-4">{bookDetails.title}</h2>
                <div className="mb-4">
                   <p className="font-semibold text-sm mb-2">

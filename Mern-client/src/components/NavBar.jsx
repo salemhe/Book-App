@@ -76,7 +76,7 @@ const NavBar = () => {
           {/* btn for lg devices */}
           <div className="space-x-12 hidden lg:flex items-center">
             <button>
-              <FaBarsStaggered className="w-5 hover:text-blue-700" />
+              <FaBarsStaggered className="w-5 hover:text-blue-700 hidden" />
             </button>
             {user ? user.email : ""}
           </div>
@@ -98,7 +98,7 @@ const NavBar = () => {
 
         {/* nav items for sm devices */}
         <div
-          className={`space-y-4 px-4 mt-16 py-7 bg-blue-700 ${
+          className={`space-y-4 px-4 mt-16 py-7 lg:hidden bg-blue-700 ${
             isMenuOpen ? "block fixed top-0 right-0 left-0" : "hidden"
           }`}
         >
