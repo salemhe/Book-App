@@ -1,18 +1,51 @@
 // BookDetails.js
 import React, { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
+import CommentSection from '../Mern-client/src/components/Comment';
+import Comment from '../Mern-client/src/components/Comment';
+import useNode  from '../Mern-client/src/hooks/useNode';
+import StarRating from '../Mern-client/src/components/StarRating';
+
+const comments ={
+  id: 1,
+  items: []
+}
 
 function BookDetails() {
   const { bookId } = useParams();
   const [bookDetails, setBookDetails] = useState(null);
-  const [recommendations, setRecommendations] = useState([]);
+  const [recommendations, setRecommendations] = useState([]);  const [commentsData, setCommentsData] = useState(comments);
+  const [userRating, setUserRating] = useState(0); // State to track user's rating
+  const [userReview, setUserReview]  = useState(''); // State for the review
+  const { insertNode, editNode, deleteNode } = useNode();
 
+  // Function to handle user's rating change
+  const handleRatingChange = (newRating) => {
+    setUserRating(newRating);
+  };
+
+
+  const handleInsertNode = (folderId, item) => {
+    const finalStructure = insertNode(commentsData, folderId, item);
+    setCommentsData(finalStructure);
+  };
+
+  const handleEditNode = (folderId, value) => {
+    const finalStructure = editNode(commentsData, folderId, value);
+    setCommentsData(finalStructure);
+  };
+
+  const handleDeleteNode = (folderId) => {
+    const finalStructure = deleteNode(commentsData, folderId);
+    const temp = { ...finalStructure };
+    setCommentsData(temp);
+  };
 
   const fetchRecommendations = async () => {
    try {
      const response = await fetch('https://www.googleapis.com/books/v1/volumes?q=random');
      const data = await response.json();
-     setRecommendations(data.items.slice(0, 8));
+     setRecommendations(data.items.slice(0, 4));
    } catch (error) {
      console.error('Error fetching recommendations:', error);
    }
@@ -67,6 +100,9 @@ function BookDetails() {
                   Published Date: <span className="text-gray-700 text-sm font-normal">{bookDetails.publishedDate}</span>
                   </p>
                   <p className="font-semibold text-sm mb-2">
+                  Ratings: <span className="text-gray-700 text-sm font-normal">{bookDetails.maturityRating}</span>
+                  </p>
+                  <p className="font-semibold text-sm mb-2">
                   Page Count: <span className="text-gray-700 text-sm font-normal">{bookDetails.pageCount}</span>
                   </p>
                </div>
@@ -74,10 +110,37 @@ function BookDetails() {
             </div>
          </div>
 
-         
+         <div>
+      {/* Existing code... */}
+
+      {/* Render the StarRating component */}
+      {/* <div className="mt-8">
+        <h2 className="text-xl font-semibold mb-2">Rate this book:</h2>
+        <StarRating
+         onChange={handleRatingChange} />
+      </div> */}
+
+      {/* Allow users to input reason for their review */}
+      {/* <div className="mt-4">
+        <h2 className="text-xl font-semibold mb-2">Add a reason for your review:</h2>
+        <textarea
+          value={userReview}
+          onChange={(e) => setUserReview(e.target.value)}
+          rows="4"
+          className="w-full border rounded-md p-2"
+          placeholder="Enter your reason here..."
+        />
+      </div> */}
+    </div>
          {/* Render description as HTML */}
          
-         
+         <div className='mt-16'>
+          <Comment comment={commentsData}
+                handleInsertNode={handleInsertNode}
+                handleEditNode={handleEditNode}
+                handleDeleteNode={handleDeleteNode}
+          />
+         </div>
       </div>
       <hr className="my-8" />
 
