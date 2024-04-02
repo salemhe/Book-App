@@ -5,6 +5,7 @@ import CommentSection from '../Mern-client/src/components/Comment';
 import Comment from '../Mern-client/src/components/Comment';
 import useNode  from '../Mern-client/src/hooks/useNode';
 import StarRating from '../Mern-client/src/components/StarRating';
+import StarReview from '../Mern-client/src/components/StarRating';
 
 const comments ={
   id: 1,
@@ -22,6 +23,11 @@ function BookDetails() {
   // Function to handle user's rating change
   const handleRatingChange = (newRating) => {
     setUserRating(newRating);
+  };
+
+  const handleReviewSubmit = (reviewData) => {
+    console.log('Submitted Review:', reviewData);
+    // You can send the review data to your backend or manage it locally.
   };
 
 
@@ -114,23 +120,11 @@ function BookDetails() {
       {/* Existing code... */}
 
       {/* Render the StarRating component */}
-      {/* <div className="mt-8">
-        <h2 className="text-xl font-semibold mb-2">Rate this book:</h2>
-        <StarRating
-         onChange={handleRatingChange} />
-      </div> */}
-
-      {/* Allow users to input reason for their review */}
-      {/* <div className="mt-4">
-        <h2 className="text-xl font-semibold mb-2">Add a reason for your review:</h2>
-        <textarea
-          value={userReview}
-          onChange={(e) => setUserReview(e.target.value)}
-          rows="4"
-          className="w-full border rounded-md p-2"
-          placeholder="Enter your reason here..."
-        />
-      </div> */}
+      <div className="mt-8">
+        <h2 className="text-xl mt-6 font-semibold mb-2">Rate this book:</h2>
+        {/* <StarRating /> */}
+        <StarReview onSubmit={handleReviewSubmit} />
+      </div>
     </div>
          {/* Render description as HTML */}
          
