@@ -1,0 +1,110 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Comment Container */
+.commentContainer {
+   margin-top: 20px;
+   /* background-color: #ffffff; */
+   display: flex;
+   flex-direction: column;
+   /* padding: 15px; */
+   /* width: 320px; */
+   line-break: auto;
+  
+   cursor: pointer;
+   border-radius: 12px;
+   /* box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); */
+   /* transition: background-color 0.3s ease, transform 0.2s ease; */
+ }
+ 
+ .commentContainer:hover {
+   /* background-color: #f0f0f0; */
+   transform: translateY(-2px);
+ }
+ 
+ /* Comment Text */
+ .comment {
+   color: #4e4e4e;
+   /* background-color: rgb(226, 232, 240, 1) ; */
+   /* padding: 12px; */
+   border-radius: 8px;
+   letter-spacing: 0.8px;
+   margin-bottom: 10px;
+ }
+
+ .post{
+   font-size: 9px;
+   padding: 10px 20px;
+   /* border: 1px solid #065fd4; */
+   border-radius: 20px;
+   background-color: rgb(226, 232, 240, 1) ;
+   font-weight: 600;
+   text-transform: uppercase;
+   cursor: pointer;
+   transition: background-color 0.3s ease, color 0.3s ease;
+ }
+ 
+  .post:hover {
+   background-color: #065fd4;
+   color: #ffffff;
+ }
+ /* Reply Button */
+ .reply {
+   /* font-size: 9px;
+   padding: 10px 20px; */
+   /* border: 1px solid #065fd4; */
+   /* border-radius: 20px;
+   
+   font-weight: 600;
+   text-transform: uppercase;
+   cursor: pointer;
+   transition: background-color 0.3s ease, color 0.3s ease; */
+   text-decoration: none;
+   font-size: 13px;
+   
+ }
+ .reply::after{
+  content: '';
+   color: #065fd4;
+   width: 0%;
+   height: 2px;
+   background: #065fd4;
+   display: block;
+   margin: auto;
+   transition: 0.5s;
+ }
+ .reply:hover::after{
+  width: 100%;
+}
+ 
+
+ 
+ /* Input Container */
+ .inputContainer {
+   display: flex;
+   flex-direction: column;
+   gap: 15px;
+ }
+ 
+ .inputContainer > span {
+   font-size: 14px;
+   color: #606060;
+ }
+ 
+ .inputContainer__input {
+   padding: 12px;
+   border: 1px solid #cccccc;
+   border-radius: 8px;
+   background-color: #f2f2f2;
+   transition: border-color 0.3s ease;
+ }
+ 
+ .inputContainer__input:focus-within {
+   border-color: #065fd4;
+ }
+ 
+ .first_input {
+   margin-top: 0;
+ }
+ 
