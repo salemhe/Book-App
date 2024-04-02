@@ -49,7 +49,7 @@ function BookDetails() {
 
   const fetchRecommendations = async () => {
    try {
-     const response = await fetch('https://www.googleapis.com/books/v1/volumes?q=random');
+     const response = await fetch(`https://www.googleapis.com/books/v1/volumes?q=random&startIndex=${Math.floor(Math.random() * 100)}`);
      const data = await response.json();
      setRecommendations(data.items.slice(0, 4));
    } catch (error) {
