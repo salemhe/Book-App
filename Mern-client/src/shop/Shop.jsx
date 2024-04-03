@@ -29,7 +29,7 @@ const Shop = () => {
               {/* {book.bookDescription} */}
             </p>
 
-            <button className='bg-blue-700 font-semibold text-white py-2 rounded'>Buy Now</button>
+            <button className='bg-pink-700 font-semibold text-white py-2 rounded'>Buy Now</button>
           </Card>)
         }
       </div>

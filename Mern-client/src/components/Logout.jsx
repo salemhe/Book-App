@@ -17,7 +17,7 @@ const Logout = () => {
         });
     }
   return (
-    <div className='h-screen bg-teal-100 flex items-center justify-center'>
+    <div className='h-screen bg-pink-100 flex items-center justify-center'>
         <button className='bg-red-700 px-4 py-2 text-whiterounded' onClick={handleLogout}>Logout</button>
     </div>
   )
