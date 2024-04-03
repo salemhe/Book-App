@@ -1,6 +1,9 @@
 import React, { useState, useContext } from 'react';
 import { FaStar } from 'react-icons/fa';
 import { AuthContext } from '../contects/AuthProvider';
+import {db} from '../firebase/firebase.config';
+import { serverTimestamp, doc, updateDoc} from "firebase/firestore";
+import 'firebase/firestore';
 
 const StarReview = ({ onSubmit }) => {
   const [rating, setRating] = useState(0);
@@ -29,24 +32,66 @@ const StarReview = ({ onSubmit }) => {
     setReason(event.target.value);
   };
 
-  const handleSubmit = () => {
-    // Check if rating is provided
-    if (rating === 0) {
-      alert('Please provide a rating');
-      return;
-    }
+//   const handleSubmit = () => {
+//     // Check if rating is provided
+//     if (rating === 0) {
+//       alert('Please provide a rating');
+//       return;
+//     }
 
-    // Submit the review
-    onSubmit({ rating, reason });
-    hideTextArea();
+//     // Submit the review
+//     onSubmit({ rating, reason });
+//     hideTextArea();
 
-    // Add the review to the list of reviews
-    setReviews([...reviews, { rating, reason }]);
+//     // Add the review to the list of reviews
+//     setReviews([...reviews, { rating, reason }]);
 
-    // Clear the form after submission
-    setRating(0);
-    setReason('');
-  };
+//     // Clear the form after submission
+//     setRating(0);
+//     setReason('');
+//   };
+
+const handleSubmit = () => {
+   // Check if rating is provided
+   if (rating === 0) {
+     alert('Please provide a rating');
+     return;
+   }
+ 
+   // Submit the review
+   onSubmit({ rating, reason });
+   hideTextArea();
+ 
+   // Add the review to the list of reviews
+   setReviews([...reviews, { rating, reason }]);
+ 
+   // Save to Firebase
+   saveToFirebase(user.displayName, user.photoURL, rating, reason); // Assuming 'user.displayName' is the user's name and 'user.photoURL' is the user's image URL
+ 
+   // Clear the form after submission
+   setRating(0);
+   setReason('');
+ };
+ 
+ 
+ const saveToFirebase = (userName, userImage, userRating, userReview) => {
+
+   db.collection('user_reviews').add({
+     userName,
+     userImage,
+     userRating,
+     userReview,
+     timestamp: serverTimestamp(),
+   })
+   .then(() => {
+     console.log('Review added to Firebase');
+   })
+   .catch((error) => {
+     console.error('Error adding review to Firebase: ', error);
+   });
+ };
+ 
+ 
 
   return (
     <div>

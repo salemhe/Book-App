@@ -16,14 +16,9 @@ function BookDetails() {
   const { bookId } = useParams();
   const [bookDetails, setBookDetails] = useState(null);
   const [recommendations, setRecommendations] = useState([]);  const [commentsData, setCommentsData] = useState(comments);
-  const [userRating, setUserRating] = useState(0); // State to track user's rating
-  const [userReview, setUserReview]  = useState(''); // State for the review
+
   const { insertNode, editNode, deleteNode } = useNode();
 
-  // Function to handle user's rating change
-  const handleRatingChange = (newRating) => {
-    setUserRating(newRating);
-  };
 
   const handleReviewSubmit = (reviewData) => {
     console.log('Submitted Review:', reviewData);
@@ -47,31 +42,54 @@ function BookDetails() {
     setCommentsData(temp);
   };
 
-  const fetchRecommendations = async () => {
-   try {
-     const response = await fetch(`https://www.googleapis.com/books/v1/volumes?q=random&startIndex=${Math.floor(Math.random() * 100)}`);
-     const data = await response.json();
-     setRecommendations(data.items.slice(0, 4));
-   } catch (error) {
-     console.error('Error fetching recommendations:', error);
-   }
- };
+//   const fetchRecommendations = async () => {
+//    try {
+//      const response = await fetch(`https://www.googleapis.com/books/v1/volumes?q=${bookDetails}&startIndex=${Math.floor(Math.random() * 100)}`);
+//      const data = await response.json();
+//      setRecommendations(data.items.slice(0, 4));
+//    } catch (error) {
+//      console.error('Error fetching recommendations:', error);
+//    }
+//  };
 
-  useEffect(() => {
-    const fetchBookDetails = async () => {
-      try {
-        const response = await fetch(`https://www.googleapis.com/books/v1/volumes/${bookId}`);
-        const data = await response.json();
-        setBookDetails(data.volumeInfo);
-        console.log(data.volumeInfo)
-      } catch (error) {
-        console.error('Error fetching book details:', error);
-      }
-    };
+//   useEffect(() => {
+//     const fetchBookDetails = async () => {
+//       try {
+//         const response = await fetch(`https://www.googleapis.com/books/v1/volumes/${bookId}`);
+//         const data = await response.json();
+//         setBookDetails(data.volumeInfo);
+//         console.log(data.volumeInfo)
+//       } catch (error) {
+//         console.error('Error fetching book details:', error);
+//       }
+//     };
 
-    fetchBookDetails();
-    fetchRecommendations();
-  }, [bookId]);
+//     fetchBookDetails();
+//     fetchRecommendations();
+//   }, [bookId]);
+
+const fetchRecommendations = async () => {
+  try {
+    // Fetch book details
+    const response = await fetch(`https://www.googleapis.com/books/v1/volumes/${bookId}`);
+    const data = await response.json();
+    setBookDetails(data.volumeInfo);
+
+    // Extract relevant keywords from the book details
+    const keywords = data.volumeInfo.title.split(" ").join("+");
+
+    // Fetch recommendations based on extracted keywords
+    const recommendationResponse = await fetch(`https://www.googleapis.com/books/v1/volumes?q=${keywords}&startIndex=0&maxResults=4`);
+    const recommendationData = await recommendationResponse.json();
+    setRecommendations(recommendationData.items);
+  } catch (error) {
+    console.error('Error fetching recommendations:', error);
+  }
+};
+
+useEffect(() => {
+  fetchRecommendations();
+}, [bookId]);
 
   if (!bookDetails) {
     return <div>Loading...</div>;
@@ -93,7 +111,7 @@ function BookDetails() {
                   />
                </div> */}
                <div className=' h-full items-center w-full pl-8 sm:pl-0 flex justify-center '>
-                  <img src={bookDetails.imageLinks?.thumbnail} alt={bookDetails.title} className="w-56 mt-6 h-72 object-cover" />
+                  <img src={bookDetails.imageLinks?.thumbnail} alt={bookDetails.title} className="w-56 mt-6 h-72 mb-4 object-cover" />
                 </div>
             </div>
             <div className="p-6 sm:pr-36 sm:py-6 w-full sm:w-[1/2]">
@@ -105,9 +123,9 @@ function BookDetails() {
                   <p className="font-semibold text-sm mb-2">
                   Published Date: <span className="text-gray-700 text-sm font-normal">{bookDetails.publishedDate}</span>
                   </p>
-                  <p className="font-semibold text-sm mb-2">
+                  {/* <p className="font-semibold text-sm mb-2">
                   Ratings: <span className="text-gray-700 text-sm font-normal">{bookDetails.maturityRating}</span>
-                  </p>
+                  </p> */}
                   <p className="font-semibold text-sm mb-2">
                   Page Count: <span className="text-gray-700 text-sm font-normal">{bookDetails.pageCount}</span>
                   </p>
@@ -148,7 +166,7 @@ function BookDetails() {
          ease-out hover:ease-in hover:shadow-lg">
             <Link to={`/book-details/${book.id}`}>
             <div className=' flex justify-center '>
-            <img src={book.volumeInfo.imageLinks?.thumbnail} alt={book.volumeInfo.title} className="w-36 mt-6 h-44 object-cover" />
+            <img src={book.volumeInfo.imageLinks?.thumbnail} alt={book.volumeInfo.title} className="w-36 mt-4 h-44 object-cover" />
             </div>
             <div className="p-4">
             <h3 className=" text-sm font-semibold mb-2 text-center">{book.volumeInfo.title}</h3>
