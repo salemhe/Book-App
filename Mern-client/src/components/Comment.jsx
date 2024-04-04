@@ -54,31 +54,37 @@ const Comment = ({
 
   return (
     <div className="borde p-0 sm:p-6 bg-[#ffffff]">
-      <div className={comment.id === 1 ? "inputContainer" : "commentContainer"}>
-        {comment.id === 1 ? (
-          <div className="flex sm:w-[80%] sm:space-x-5 ">
-            <input
-              type="text"
-              className="inputContainer__inpu first_inpu focus:ring-0 rounded-none border-r-0 border-l-0 border-b mt-3 sm:ml-5 border-t-0 flex-1 h-[40px]"
-              autoFocus
-              value={input}
-              onChange={(e) => setInput(e.target.value)}
-              placeholder="Add a comment ...."
-            />
-            <Action
-              className="post comment disabled:cursor-not-allowed disabled:bg-[#e0e0e0] mt-3 disabled:text-white"
-              type="COMMENT"
-              handleClick={onAddComment}
-              disabled={!input}
-            />
-          </div>
+      <div className={comment  ? "inputContainer" : "commentContainer"}>
+        {!comment <= 0 ? (
+          <>
+               <div className="flex sm:w-[80%] sm:space-x-5 ">
+                  <input
+                    type="text"
+                    className="inputContainer__inpu first_inpu focus:ring-0 rounded-none border-r-0 border-l-0 border-b mt-3 sm:ml-5 border-t-0 flex-1 h-[40px]"
+                    autoFocus
+                    value={input}
+                    onChange={(e) => setInput(e.target.value)}
+                    placeholder="Add a comment ...."
+                  />
+                  <Action
+                    className="post comment disabled:cursor-not-allowed disabled:bg-[#e0e0e0] mt-3 disabled:text-white"
+                    type="COMMENT"
+                    handleClick={onAddComment}
+                    disabled={!input}
+                  />
+                </div>
+                <div className="">
+              {/* <img src={comment.userImage} alt="" className="rounded-full h-7 w-7" /> */}
+            </div>
+          </>
         ) : (
           <div className="flex space-x-2">
             <div className="">
-              <img src={user.photoURL} alt="" className="rounded-full h-7 w-7" />
+              <img src={comment.userImage} alt="" className="rounded-full h-7 w-7" />
             </div>
             <div className="sm:w-full w-64 ">
-              <h4 className="font-medium text-black dark:text-white">{user.displayName}</h4>
+              <h4 className="font-medium text-black dark:text-white">{comment.userName}:</h4>
+              <p className='text-xs text-gray-500'>{comment.timestamp.toLocaleDateString()}</p>
               <span
                 contentEditable={editMode}
                 suppressContentEditableWarning={editMode}
@@ -168,7 +174,7 @@ const Comment = ({
         )}
       </div>
 
-      <div style={{ paddingLeft: 6 }}>
+      <div style={{ paddingLeft: 8 }}>
         <div style={{ display: expand ? "block" : "none", paddingLeft: 12 }}>
           {showInput && (
             <div className="inputContainer mt-3">
@@ -198,8 +204,7 @@ const Comment = ({
             </div>
           )}
         </div>
-        {expandReplies && comment.items && comment?.items?.map((cmnt) => {
-          console.log(cmnt);
+        {expandReplies && comment.items && comment.items.map((cmnt) => {
           return (
             <Comment
               key={cmnt.id}
@@ -210,6 +215,7 @@ const Comment = ({
             />
           );
         })}
+
       </div>
     </div>
   );

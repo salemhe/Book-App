@@ -18,7 +18,7 @@ import Login from "../components/Login";
 import PrivateRoute from "../PrivateRoute/PrivateRoute";
 import Logout from "../components/Logout";
 import SearchResults from "../search/search";
-import BookDetails from "../../../bookDetails/BookDetails";
+import BookDetails from "../bookDetails/BookDetails";
 
 
   const router = createBrowserRouter([

@@ -6,12 +6,12 @@ import {getFirestore} from "firebase/firestore";
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
-  apiKey: "AIzaSyB_WrIDkMHc5rAAWgI1xagnAqkpxJgHBfs",
-  authDomain: "mern-book-inventory-d4756.firebaseapp.com",
-  projectId: "mern-book-inventory-d4756",
-  storageBucket: "mern-book-inventory-d4756.appspot.com",
-  messagingSenderId: "919628763333",
-  appId: "1:919628763333:web:2fc383f2ccd40bf90f60ac"
+  apiKey: "AIzaSyDQ6wQqEnZ8rL6v5UVG5fjGNwvKF-PUO0E",
+  authDomain: "bookhub-dc5ad.firebaseapp.com",
+  projectId: "bookhub-dc5ad",
+  storageBucket: "bookhub-dc5ad.appspot.com",
+  messagingSenderId: "177922313191",
+  appId: "1:177922313191:web:211780335d26fbcad14b42"
 };
 
 // Initialize Firebase
