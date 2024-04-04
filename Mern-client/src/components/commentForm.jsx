@@ -8,6 +8,10 @@ function CommentForm({ comment,   handleInsertNode, handleEditNode, handleDelete
   const { user } = useContext(AuthContext);
 
   const onAddComment = () => {
+    if (!user) {
+      alert('Please log in to submit a review');
+      return;
+    }
       handleInsertNode(comment.id, input);
       setInput("");
   };

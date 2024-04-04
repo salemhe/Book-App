@@ -81,6 +81,13 @@ import 'firebase/firestore';
 
 // StarReview component
 const handleSubmit = async () => {
+
+  // Check if user is logged in
+  if (!user) {
+    alert('Please log in to submit a review');
+    return;
+  }
+  
    // Check if rating is provided
    if (rating === 0) {
      alert('Please provide a rating');
