@@ -9,17 +9,18 @@ import StarReview from '../components/StarRating';
 import { db } from '../firebase/firebase.config';
 import { collection, doc, getDoc, orderBy, onSnapshot, query, addDoc, serverTimestamp } from "firebase/firestore";
 import { AuthContext } from '../contects/AuthProvider';
+import CommentForm from '../components/commentForm';
 
-const comments ={
-  id: 1,
-  items: []
-}
+// const comments ={
+//   id: 1,
+//   items: []
+// }
 
 function BookDetails() {
   const { bookId } = useParams();
   const [bookDetails, setBookDetails] = useState(null);
   const [recommendations, setRecommendations] = useState([]);  
-  const [commentsData, setCommentsData] = useState(comments);
+  const [commentsData, setCommentsData] = useState([]);
 
   const { insertNode, editNode, deleteNode } = useNode();
   const {user} = useContext(AuthContext)
@@ -35,15 +36,15 @@ function BookDetails() {
 
       try {
           if (!user) throw new Error("User not signed in");
-
+          const serializedStructure = JSON.stringify(finalStructure);
         // Add document metadata to Firestore
         await addDoc(collection(db, "books", bookId, 'comments'), {
           userId: user.uid,
           userName: user.displayName,
           userImage: user.photoURL,
           // parentId,
-          // item,
-          finalStructure,
+          commentText: item,
+          finalStructure: serializedStructure,
           timestamp: serverTimestamp(),
           });
 
@@ -82,17 +83,21 @@ function BookDetails() {
   useEffect(() => {
         const commentQuery = collection(db, "books", bookId, "comments");
         const comments = onSnapshot( 
-            query(commentQuery, orderBy("timestamp", "desc")),  
-            (snapshot) => {
-              const newComments = snapshot.docs.map((doc) => ({ 
+          query(commentQuery, orderBy("timestamp", "desc")),  
+          (snapshot) => {
+            const newComments = snapshot.docs.map((doc) => {
+              const commentData = doc.data();
+              return { 
                 id: doc.id, 
-                ...doc.data(), 
-                timestamp: doc.data().timestamp.toDate() 
-              }));
-              console.log('newComments', newComments);
-              setCommentsData(newComments);
-          }
-        ) 
+                ...commentData, 
+                timestamp: commentData.timestamp ? commentData.timestamp.toDate() : null
+              };
+            });
+            console.log('newComments', newComments);
+            setCommentsData(newComments);
+        }
+      );
+      
         // setCommentsData({ id: bookId, items: comments });
       return () => comments()
   
@@ -177,11 +182,12 @@ useEffect(() => {
          {/* Render description as HTML */}
          
          <div className='mt-16'>
-          {/* <Comment comment={commentsData}
+          <CommentForm  comment={commentsData} handleInsertNode={handleInsertNode}/>
+          <Comment comment={commentsData}
                 handleInsertNode={handleInsertNode}
                 handleEditNode={handleEditNode}
                 handleDeleteNode={handleDeleteNode}
-          /> */}
+          />
          </div>
       </div>
       <hr className="my-8" />

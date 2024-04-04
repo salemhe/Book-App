@@ -6,12 +6,12 @@ import {getFirestore} from "firebase/firestore";
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
-  apiKey: "AIzaSyDQ6wQqEnZ8rL6v5UVG5fjGNwvKF-PUO0E",
-  authDomain: "bookhub-dc5ad.firebaseapp.com",
-  projectId: "bookhub-dc5ad",
-  storageBucket: "bookhub-dc5ad.appspot.com",
-  messagingSenderId: "177922313191",
-  appId: "1:177922313191:web:211780335d26fbcad14b42"
+  apiKey: "AIzaSyDF5ILvHzBaLXXsibg2R_l4q5Dig2QCkKY",
+  authDomain: "bookhub-45efb.firebaseapp.com",
+  projectId: "bookhub-45efb",
+  storageBucket: "bookhub-45efb.appspot.com",
+  messagingSenderId: "795414920201",
+  appId: "1:795414920201:web:c03d35ef7b00f2f63a4cd8"
 };
 
 // Initialize Firebase

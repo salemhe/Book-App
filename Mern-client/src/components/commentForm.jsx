@@ -1,60 +1,38 @@
-import React, { useState, useContext, useEffect  } from "react";
-import { db } from "../firebase/firebase.config";
-import { serverTimestamp, collection, addDoc } from 'firebase/firestore';
+import React, { useState, useRef, useEffect, useContext } from "react";
+import Action from "../components/Actions";
+import { IoIosArrowDown, IoIosArrowUp } from "react-icons/io";
 import { AuthContext } from '../contects/AuthProvider';
 
-const CommentForm = ({ parentId, bookId }) => {
-  const [text, setText] = useState("");
-   
+function CommentForm({ comment,   handleInsertNode, handleEditNode, handleDeleteNode, }) {
+  const [input, setInput] = useState("");
   const { user } = useContext(AuthContext);
 
-  useEffect(() => {
-   const commentsRef = collection(db, "books", bookId, "comments");
-   onSnapshot(commentsRef , (querySnapshot) => {
-       let newComments= [];
-         querySnapshot.forEach((doc) => {
-             const data = doc.data();
-               newComments=[...newComments,
-                   {id: data.id, ...data}];
-           });
-           console.log(newComments);
-           setComments(newComments.sort((a, b)=>b.date - a.date));
-     })
- },[bookId]);
-  const handleSubmit = async (e) => {
-   e.preventDefault();
- 
-   try {
-     if (!user) throw new Error("User not signed in");
- 
-     // Validate text before submitting
-     if (!text.trim()) {
-       throw new Error("Comment text cannot be empty");
-     }
- 
-     // Add document metadata to Firestore
-     await addDoc(collection(db, "books", bookId, "comments"), {
-       userId: user.uid,
-       userName: user.displayName,
-       userImage: user.photoURL,
-       parentId: parentId,
-       text,
-       timestamp: serverTimestamp(),
-     });
- 
-     console.log("review submitted ")
-   } catch (error) { 
-     console.error('Error adding review to Firebase: ', error);
-   } 
-   setText("");
- };
- 
+  const onAddComment = () => {
+      handleInsertNode(comment.id, input);
+      setInput("");
+  };
   return (
-    <form onSubmit={handleSubmit}>
-      <textarea value={text} onChange={(e) => setText(e.target.value)}></textarea>
-      <button type="submit">Submit</button>
-    </form>
-  );
-};
+    <div className="p-0 sm:p-6 bg-white">
+        <div className="flex sm:w-[80%] sm:space-x-5 ">
+                  <input
+                    type="text"
+                    className="inputContainer__inpu first_inpu focus:ring-0 rounded-none border-r-0 border-l-0 border-b mt-3 sm:ml-5 border-t-0 flex-1 h-[40px]"
+                    autoFocus
+                    value={input}
+                    onChange={(e) => setInput(e.target.value)}
+                    placeholder="Add a comment ...."
+                  />
+                  <Action
+                    className="post comment disabled:cursor-not-allowed disabled:bg-[#e0e0e0] mt-3 disabled:text-white"
+                    type="COMMENT"
+                    handleClick={onAddComment}
+                    disabled={!input}
+                  />
+                </div>
+                <div className="">
+            </div>
+    </div>
+  )
+}
 
-export default CommentForm;
+export default CommentForm

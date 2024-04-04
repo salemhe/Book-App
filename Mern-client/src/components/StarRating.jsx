@@ -141,11 +141,14 @@ useEffect(() => {
    const unsubscribe = onSnapshot(
      query(reviewQuery, orderBy("timestamp", "desc")),
      (snapshot) => {
-       const reviewsData = snapshot.docs.map((doc) => ({
-         ...doc.data(),
-         id: doc.id,
-         timestamp: doc.data().timestamp.toDate() // Convert Firestore timestamp to JavaScript Date object
-       }));
+       const reviewsData = snapshot.docs.map((doc) => {
+        const reviewData = doc.data();
+      return  {
+        id: doc.id,
+         ...reviewData,
+         timestamp: reviewData.timestamp ? reviewData.timestamp.toDate() : null// Convert Firestore timestamp to JavaScript Date object
+         }
+       });
        setReviews(reviewsData);
      }
    );
@@ -229,7 +232,7 @@ useEffect(() => {
                      ))}
                   </p>
                   
-                  <p className='text-xs text-gray-500'>{review.timestamp.toLocaleDateString()}</p>
+                  <p className='text-xs text-gray-500'>{review.timestamp ? review.timestamp.toLocaleDateString() : ''}</p>
                 </div>
                 <p className=' w-72 borde break-words text-sm text-gray-700 font-normal'> {review.userReview}</p>
               </div>

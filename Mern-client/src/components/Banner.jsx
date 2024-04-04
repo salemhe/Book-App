@@ -17,8 +17,8 @@ const Banner = () => {
         {/* Left side */}
         <div className="md:w-1/2 space-y-8 h-full">
           <h2 className="text-4xl font-bold leading-snug text-black">
-            Buy And Sell Your Books{" "}
-            <span className="text-blue-700">for the best Prices</span>
+              Discover your next read with ease! 
+            <span className="text-blue-700">Simply search for books hassle-free</span>
           </h2>
           <p className="md:w-4/5">
             Find and read more books you{"'"}ll love, and keep track of the

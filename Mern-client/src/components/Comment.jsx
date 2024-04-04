@@ -3,13 +3,7 @@ import Action from "../components/Actions";
 import { IoIosArrowDown, IoIosArrowUp } from "react-icons/io";
 import { AuthContext } from '../contects/AuthProvider';
 
-
-const Comment = ({
-  handleInsertNode,
-  handleEditNode,
-  handleDeleteNode,
-  comment,
-}) => {
+function Comment({ comment,   handleInsertNode, handleEditNode, handleDeleteNode, }) {
   const [input, setInput] = useState("");
   const [editMode, setEditMode] = useState(false);
   const [showInput, setShowInput] = useState(false);
@@ -18,6 +12,8 @@ const Comment = ({
   const [expand, setExpand] = useState(false);
   const inputRef = useRef(null);
   const { user } = useContext(AuthContext);
+
+  console.log(comment)
 
   useEffect(() => {
     inputRef?.current?.focus();
@@ -36,55 +32,31 @@ const Comment = ({
 
   const onAddComment = () => {
     if (editMode) {
-      handleEditNode(comment.id, inputRef?.current?.innerText);
+      handleEditNode(comment.id, input);
+      setEditMode(false);
     } else {
-      setExpand(true);
-      setExpandReplies(true);
       handleInsertNode(comment.id, input);
-      setShowInput(false);
-      setInput("");
     }
-
-    if (editMode) setEditMode(false);
+    setInput("");
   };
 
   const handleDelete = () => {
     handleDeleteNode(comment.id);
   };
-
   return (
-    <div className="borde p-0 sm:p-6 bg-[#ffffff]">
-      <div className={comment  ? "inputContainer" : "commentContainer"}>
-        {!comment <= 0 ? (
-          <>
-               <div className="flex sm:w-[80%] sm:space-x-5 ">
-                  <input
-                    type="text"
-                    className="inputContainer__inpu first_inpu focus:ring-0 rounded-none border-r-0 border-l-0 border-b mt-3 sm:ml-5 border-t-0 flex-1 h-[40px]"
-                    autoFocus
-                    value={input}
-                    onChange={(e) => setInput(e.target.value)}
-                    placeholder="Add a comment ...."
-                  />
-                  <Action
-                    className="post comment disabled:cursor-not-allowed disabled:bg-[#e0e0e0] mt-3 disabled:text-white"
-                    type="COMMENT"
-                    handleClick={onAddComment}
-                    disabled={!input}
-                  />
-                </div>
-                <div className="">
-              {/* <img src={comment.userImage} alt="" className="rounded-full h-7 w-7" /> */}
-            </div>
-          </>
-        ) : (
-          <div className="flex space-x-2">
+    <div className=" p-0 sm:p-6 pl-0 sm:pl-16 bg-[#ffffff] ">
+      {
+         Array.isArray(comment) && comment.map ((item, index) => (
+          <div className="flex space-x-2 mt-3 commentContainer" key={ index}>
+            
             <div className="">
-              <img src={comment.userImage} alt="" className="rounded-full h-7 w-7" />
+              <img src={item.userImage} alt="" className="rounded-full h-7 w-7" />
             </div>
             <div className="sm:w-full w-64 ">
-              <h4 className="font-medium text-black dark:text-white">{comment.userName}:</h4>
-              <p className='text-xs text-gray-500'>{comment.timestamp.toLocaleDateString()}</p>
+             <div className="flex">
+                <h4 className="font-medium text-black dark:text-white">{item.userName}</h4>
+                  <p className='text-xs text-gray-500 flex ml-2 mt-1 items-center'>{item.timestamp ? item.timestamp.toLocaleDateString() : ''}</p>
+             </div>
               <span
                 contentEditable={editMode}
                 suppressContentEditableWarning={editMode}
@@ -92,9 +64,9 @@ const Comment = ({
                 style={{ wordWrap: "break-word" }}
                 className="w-fit borde focus:outline-none focus:border-0 pr-2 h-[60px]"
               >
-                {comment.name}
+                {item.commentText}
               </span>
-              <div style={{ display: "flex", marginTop: "5px" }}>
+              {/* <div style={{ display: "flex", marginTop: "5px" }}>
                 {editMode ? (
                   <div className="space-x-2">
                     <Action
@@ -164,61 +136,18 @@ const Comment = ({
                     ): (
                       <></>
                     )
-                      
-                    }
+}
                   </div>
                 )}
-              </div>
+              </div> */}
             </div>
           </div>
-        )}
-      </div>
+          ))
 
-      <div style={{ paddingLeft: 8 }}>
-        <div style={{ display: expand ? "block" : "none", paddingLeft: 12 }}>
-          {showInput && (
-            <div className="inputContainer mt-3">
-              <input
-                type="text"
-                className="focus:ring-0 rounded-none border-r-0 border-l-0 border-b border-t-0 flex-1 h-[40px] inputContainer__inpu"
-                autoFocus
-                onChange={(e) => setInput(e.target.value)}
-                placeholder="Reply comment"
-              />
-              <div className="flex space-x-2">
-                <Action
-                  className="reply comment disabled:cursor-not-allowed disabled:bg- disabled:text-[#b39f9f]"
-                  type="Post"
-                  handleClick={onAddComment}
-                  disabled={!input}
-                />
-                <Action
-                  className="reply comment"
-                  type="Cancel"
-                  handleClick={() => {
-                    setShowInput(false);
-                    if (!comment?.items?.length) setExpand(false);
-                  }}
-                />
-              </div>
-            </div>
-          )}
-        </div>
-        {expandReplies && comment.items && comment.items.map((cmnt) => {
-          return (
-            <Comment
-              key={cmnt.id}
-              handleInsertNode={handleInsertNode}
-              handleEditNode={handleEditNode}
-              handleDeleteNode={handleDeleteNode}
-              comment={cmnt}
-            />
-          );
-        })}
-
-      </div>
+                  
+      }
     </div>
-  );
-};
+  )
+}
 
-export default Comment;
+export default Comment
