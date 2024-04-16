@@ -44,7 +44,7 @@ import BookDetails from "../bookDetails/BookDetails";
         }, {
             path: "/book/:id",
             element: <SingleBook/>,
-            loader: ({ params }) => fetch(`https://mern-server-m285ejada-salem-hs-projects.vercel.app/book/${params.id}`)
+            loader: ({ params }) => fetch(`https://mern-server-ruby.vercel.app/book/${params.id}`)
         },
         {
           path: '/search-results',
@@ -77,7 +77,7 @@ import BookDetails from "../bookDetails/BookDetails";
         {
           path: "/admin/dashboard/edit-books/:id",
           element: <EditBooks/>,
-          loader: ({params}) => fetch(`https://mern-server-m285ejada-salem-hs-projects.vercel.app/book/${params.id}`)
+          loader: ({params}) => fetch(`https://mern-server-ruby.vercel.app/book/${params.id}`)
         }
       ]
     }, {
