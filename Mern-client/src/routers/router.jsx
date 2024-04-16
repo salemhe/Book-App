@@ -17,7 +17,7 @@ import SignUp from "../components/SignUp";
 import Login from "../components/Login";
 import PrivateRoute from "../PrivateRoute/PrivateRoute";
 import Logout from "../components/Logout";
-import SearchResults from "../search/search";
+import SearchResults from "../search/Search";
 import BookDetails from "../bookDetails/BookDetails";
 
 
@@ -44,7 +44,7 @@ import BookDetails from "../bookDetails/BookDetails";
         }, {
             path: "/book/:id",
             element: <SingleBook/>,
-            loader: ({ params }) => fetch(`http://localhost:5000/book/${params.id}`)
+            loader: ({ params }) => fetch(`https://mern-server-m285ejada-salem-hs-projects.vercel.app/book/${params.id}`)
         },
         {
           path: '/search-results',
@@ -77,7 +77,7 @@ import BookDetails from "../bookDetails/BookDetails";
         {
           path: "/admin/dashboard/edit-books/:id",
           element: <EditBooks/>,
-          loader: ({params}) => fetch(`http://localhost:5000/book/${params.id}`)
+          loader: ({params}) => fetch(`https://mern-server-m285ejada-salem-hs-projects.vercel.app/book/${params.id}`)
         }
       ]
     }, {
