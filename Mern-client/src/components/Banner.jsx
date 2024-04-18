@@ -46,9 +46,9 @@ const Banner = () => {
         </div>
 
         {/* Right side */}
-        <div>
+        {/* <div>
           <BannerCard />
-        </div>
+        </div> */}
       </div>
     </div>
   );
